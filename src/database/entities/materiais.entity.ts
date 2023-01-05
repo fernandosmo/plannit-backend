@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Grupo_materiais } from './grupo-materiais.entity';
 
 @Entity('materiais')
-export class Materiais {
+export class Material {
   @PrimaryGeneratedColumn()
   public id: number;
 
@@ -12,7 +12,7 @@ export class Materiais {
   @Column()
   descricao: string;
 
-  @Column()
+  @Column({ type: 'real' })
   custo: number;
 
   @Column()

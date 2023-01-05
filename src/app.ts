@@ -6,11 +6,19 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { AppDataSource } from './utils/data-source';
 import AppError from './utils/appError';
+import validateEnv from './utils/validateEnv';
+import redisClient from './utils/connectRedis';
+
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import obraRouter from './routes/obra.routes';
-import validateEnv from './utils/validateEnv';
-import redisClient from './utils/connectRedis';
+import setorRouter from './routes/setor.routes';
+import ruaRouter from './routes/rua.routes';
+import trechoRouter from './routes/trechos.routes';
+import etapaRouter from './routes/etapa.routes';
+import atividadeRouter from './routes/atividade.routes';
+import grupoMateriaisRouter from './routes/grupo-materiais.routes';
+import materiaisRouter from './routes/materiais.routes';
 
 AppDataSource.initialize()
   .then(async () => {
@@ -44,6 +52,13 @@ AppDataSource.initialize()
     app.use('/api/auth', authRouter);
     app.use('/api/users', userRouter);
     app.use('/api/obra', obraRouter);
+    app.use('/api/setor', setorRouter);
+    app.use('/api/rua', ruaRouter);
+    app.use('/api/trecho', trechoRouter);
+    app.use('/api/etapa', etapaRouter);
+    app.use('/api/atividade', atividadeRouter);
+    app.use('/api/grupo-materiais', grupoMateriaisRouter);
+    app.use('/api/materiais', materiaisRouter);
 
     // HEALTH CHECKER
     app.get('/api/healthChecker', async (_, res: Response) => {

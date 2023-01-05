@@ -1,4 +1,3 @@
-import config from 'config';
 import { Obra } from '../database/entities/obra.entity';
 import { CreateObraInput } from '../schemas/obra.schema';
 import { AppDataSource } from '../utils/data-source';
