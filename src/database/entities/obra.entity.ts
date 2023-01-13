@@ -1,9 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('obras')
 export class Obra {
   @PrimaryGeneratedColumn()
   public id: number;
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
 
   @Column()
   Empreendimento: string;
