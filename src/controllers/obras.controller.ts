@@ -9,6 +9,7 @@ export const registerObraHandler = async (
 ) => {
   try {
     const {
+      user,
       Empreendimento,
       Endereço,
       Estado,
@@ -24,18 +25,19 @@ export const registerObraHandler = async (
     } = req.body;
 
     const obra = await createObra({
-      Empreendimento: Empreendimento,
-      Endereço: Endereço,
-      Estado: Estado,
-      Regiao: Regiao,
-      Assinatura_Contrato: Assinatura_Contrato,
-      Alvara_Exec: Alvara_Exec,
-      Prazo_Exec: Prazo_Exec,
-      Data_Final: Data_Final,
-      prazo_exec_invest: prazo_exec_invest,
-      Início_atividades: Início_atividades,
-      Coordenacao: Coordenacao,
-      Gestor: Gestor,
+      user,
+      Empreendimento,
+      Endereço,
+      Estado,
+      Regiao,
+      Assinatura_Contrato,
+      Alvara_Exec,
+      Prazo_Exec,
+      Data_Final,
+      prazo_exec_invest,
+      Início_atividades,
+      Coordenacao,
+      Gestor,
     });
 
     res.status(201).json({

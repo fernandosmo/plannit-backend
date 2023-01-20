@@ -4,6 +4,7 @@ import {
   getAllObrasHandler,
   registerObraHandler,
 } from '../controllers/obras.controller';
+import { deserializeUser } from '../middleware/deserializeUser';
 import { validate } from '../middleware/validate';
 import { createObraSchema } from '../schemas/obra.schema';
 
@@ -16,6 +17,6 @@ router.post('/register', validate(createObraSchema), registerObraHandler);
 router.get('/show/:id', getObraHandler);
 
 // Get obras
-router.get('/show-all', getAllObrasHandler);
+router.get('/show-all', deserializeUser, getAllObrasHandler);
 
 export default router;

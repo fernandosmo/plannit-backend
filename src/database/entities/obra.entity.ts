@@ -28,7 +28,7 @@ export class Obra {
   Alvara_Exec: string;
 
   @Column()
-  Prazo_Exec: string;
+  Prazo_Exec: number;
 
   @Column()
   Data_Final: string;

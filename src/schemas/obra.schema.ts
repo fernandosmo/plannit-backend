@@ -1,7 +1,10 @@
-import { object, string, TypeOf } from 'zod';
+import { number, object, string, TypeOf } from 'zod';
 
 export const createObraSchema = object({
   body: object({
+    user: string({
+      required_error: 'Nome is required',
+    }),
     Empreendimento: string({
       required_error: 'Empreendimento is required',
     }),
@@ -20,7 +23,7 @@ export const createObraSchema = object({
     Alvara_Exec: string({
       required_error: 'Alvara_Exec is required',
     }),
-    Prazo_Exec: string({
+    Prazo_Exec: number({
       required_error: 'Prazo_Exec is required',
     }),
     Data_Final: string({

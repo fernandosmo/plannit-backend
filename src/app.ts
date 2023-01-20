@@ -47,6 +47,9 @@ AppDataSource.initialize()
         credentials: true,
       })
     );
+    // app.use(
+    //   cors()
+    // );
 
     // ROUTES
     app.use('/api/auth', authRouter);

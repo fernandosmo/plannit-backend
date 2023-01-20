@@ -12,10 +12,11 @@ export const registerGrupoMateriaisHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { nome } = req.body;
+    const { nome, Obra } = req.body;
 
     const grupo_materiais = await createGrupoMateriais({
       nome,
+      Obra,
     });
 
     res.status(201).json({
