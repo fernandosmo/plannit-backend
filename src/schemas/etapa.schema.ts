@@ -2,7 +2,7 @@ import { number, object, string, TypeOf } from 'zod';
 
 export const createEtapaSchema = object({
   body: object({
-    Obra: number({
+    obra: number({
       required_error: 'Obra is required',
     }),
     nome: string({

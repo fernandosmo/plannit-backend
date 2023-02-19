@@ -1,6 +1,6 @@
-import { Etapa } from '../database/entities/etapa.entity';
-import { CreateEtapaInput } from '../schemas/etapa.schema';
-import { AppDataSource } from '../utils/data-source';
+import { Etapa } from "../database/entities/etapa.entity";
+import { CreateEtapaInput } from "../schemas/etapa.schema";
+import { AppDataSource } from "../utils/data-source";
 
 const etapaRepository = AppDataSource.getRepository(Etapa);
 

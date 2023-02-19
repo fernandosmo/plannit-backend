@@ -5,7 +5,7 @@ export const createGrupoMateriaisSchema = object({
     nome: string({
       required_error: 'Nome is required',
     }),
-    Obra: number({
+    obra: number({
       required_error: 'Obra is required',
     }),
   }),

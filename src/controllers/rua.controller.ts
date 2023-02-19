@@ -8,10 +8,10 @@ export const registerRuaHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { Obra, nome } = req.body;
+    const { obra, nome } = req.body;
 
     const rua = await createRua({
-      Obra,
+      obra,
       nome,
     });
 

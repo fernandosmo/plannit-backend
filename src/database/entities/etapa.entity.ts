@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Obra } from './obra.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Obra } from "./obra.entity";
 
-@Entity('etapas')
+@Entity("etapas")
 export class Etapa {
   @PrimaryGeneratedColumn()
   public id: number;

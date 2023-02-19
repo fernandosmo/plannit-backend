@@ -12,10 +12,10 @@ export const registerSetorHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { Obra, nome } = req.body;
+    const { obra, nome } = req.body;
 
     const setor = await createSetor({
-      Obra,
+      obra,
       nome,
     });
 

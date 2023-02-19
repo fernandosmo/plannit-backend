@@ -12,10 +12,10 @@ export const registerEtapaHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { Obra, nome } = req.body;
+    const { obra, nome } = req.body;
 
     const etapa = await createEtapa({
-      Obra,
+      obra,
       nome,
     });
 

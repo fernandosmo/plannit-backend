@@ -1,4 +1,4 @@
-import { any, number, object, string, TypeOf } from 'zod';
+import { number, object, string, TypeOf } from 'zod';
 
 export const createAtividadeSchema = object({
   body: object({
@@ -11,7 +11,7 @@ export const createAtividadeSchema = object({
     unidade: string({
       required_error: 'Unidade is required',
     }),
-    etapa: any({
+    etapa: number({
       required_error: 'Etapa is required',
     }),
   }),
