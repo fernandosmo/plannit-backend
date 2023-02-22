@@ -1,17 +1,17 @@
-import { any, object, string, TypeOf } from 'zod';
+import { any, object, string, TypeOf } from "zod";
 
 export const createTrechoSchema = object({
   body: object({
     nome: string({
-      required_error: 'Nome is required',
+      required_error: "Nome is required",
     }),
     setor: any({
-      required_error: 'Setor is required',
+      required_error: "Setor is required",
     }),
     rua: any({
-      required_error: 'Rua is required',
+      required_error: "Rua is required",
     }),
   }),
 });
 
-export type CreateTrechoInput = TypeOf<typeof createTrechoSchema>['body'];
+export type CreateTrechoInput = TypeOf<typeof createTrechoSchema>["body"];

@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-import { CreateGrupoMateriaisInput } from '../schemas/grupo-materiais.schema';
+import { NextFunction, Request, Response } from "express";
+import { CreateGrupoMateriaisInput } from "../schemas/grupo-materiais.schema";
 import {
   createGrupoMateriais,
   findGrupoMateriaisById,
   findGrupoMateriais,
-} from '../services/grupo-materiais.service';
+} from "../services/grupo-materiais.service";
 
 export const registerGrupoMateriaisHandler = async (
   req: Request<{}, {}, CreateGrupoMateriaisInput>,
@@ -12,15 +12,14 @@ export const registerGrupoMateriaisHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { nome, obra } = req.body;
+    const { nome } = req.body;
 
     const grupo_materiais = await createGrupoMateriais({
       nome,
-      obra,
     });
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: {
         grupo_materiais,
       },
@@ -41,7 +40,7 @@ export const getGrupoMateriaisHandler = async (
     const grupo_materiais = await findGrupoMateriaisById(JSON.parse(id));
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         grupo_materiais,
       },
@@ -60,7 +59,7 @@ export const getAllGrupoMateriaisHandler = async (
     const grupo_materiais = await findGrupoMateriais();
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
         grupo_materiais,
       },

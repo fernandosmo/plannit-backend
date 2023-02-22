@@ -1,16 +1,13 @@
-import { number, object, string, TypeOf } from 'zod';
+import { object, string, TypeOf } from "zod";
 
 export const createGrupoMateriaisSchema = object({
   body: object({
     nome: string({
-      required_error: 'Nome is required',
-    }),
-    obra: number({
-      required_error: 'Obra is required',
+      required_error: "Nome is required",
     }),
   }),
 });
 
 export type CreateGrupoMateriaisInput = TypeOf<
   typeof createGrupoMateriaisSchema
->['body'];
+>["body"];
