@@ -1,38 +1,38 @@
-import { CookieOptions, NextFunction, Request, Response } from 'express';
-import config from 'config';
-import { CreateUserInput, LoginUserInput } from '../schemas/user.schema';
+import { CookieOptions, NextFunction, Request, Response } from "express";
+import config from "config";
+import { CreateUserInput, LoginUserInput } from "../schemas/user.schema";
 import {
   createUser,
   findUserByEmail,
   findUserById,
   signTokens,
-} from '../services/user.service';
-import AppError from '../utils/appError';
-import redisClient from '../utils/connectRedis';
-import { signJwt, verifyJwt } from '../utils/jwt';
-import { User } from '../database/entities/user.entity';
+} from "../services/user.service";
+import AppError from "../utils/appError";
+import redisClient from "../utils/connectRedis";
+import { signJwt, verifyJwt } from "../utils/jwt";
+import { User } from "../database/entities/user.entity";
 
 const cookiesOptions: CookieOptions = {
   httpOnly: true,
-  sameSite: 'lax',
+  sameSite: "lax",
 };
 
-if (process.env.NODE_ENV === 'production') cookiesOptions.secure = true;
+if (process.env.NODE_ENV === "production") cookiesOptions.secure = true;
 
 const accessTokenCookieOptions: CookieOptions = {
   ...cookiesOptions,
   expires: new Date(
-    Date.now() + config.get<number>('accessTokenExpiresIn') * 60 * 1000
+    Date.now() + config.get<number>("accessTokenExpiresIn") * 60 * 1000
   ),
-  maxAge: config.get<number>('accessTokenExpiresIn') * 60 * 1000,
+  maxAge: config.get<number>("accessTokenExpiresIn") * 60 * 1000,
 };
 
 const refreshTokenCookieOptions: CookieOptions = {
   ...cookiesOptions,
   expires: new Date(
-    Date.now() + config.get<number>('refreshTokenExpiresIn') * 60 * 1000
+    Date.now() + config.get<number>("refreshTokenExpiresIn") * 60 * 1000
   ),
-  maxAge: config.get<number>('refreshTokenExpiresIn') * 60 * 1000,
+  maxAge: config.get<number>("refreshTokenExpiresIn") * 60 * 1000,
 };
 
 export const registerUserHandler = async (
@@ -50,16 +50,16 @@ export const registerUserHandler = async (
     });
 
     res.status(201).json({
-      status: 'success',
+      status: "success",
       data: {
         user,
       },
     });
   } catch (err: any) {
-    if (err.code === '23505') {
+    if (err.code === "23505") {
       return res.status(409).json({
-        status: 'fail',
-        message: 'User with that email already exist',
+        status: "fail",
+        message: "User with that email already exist",
       });
     }
     next(err);
@@ -77,7 +77,7 @@ export const loginUserHandler = async (
 
     //1. Check if user exists and password is valid
     if (!user || !(await User.comparePasswords(password, user.password))) {
-      return next(new AppError(400, 'Invalid email or password'));
+      return next(new AppError(400, "Invalid email or password"));
     }
     console.log(1);
     console.log(signTokens(user));
@@ -86,9 +86,9 @@ export const loginUserHandler = async (
     const { access_token, refresh_token } = await signTokens(user);
 
     // 3. Add Cookies
-    res.cookie('access_token', access_token, accessTokenCookieOptions);
-    res.cookie('refresh_token', refresh_token, refreshTokenCookieOptions);
-    res.cookie('logged_in', true, {
+    res.cookie("access_token", access_token, accessTokenCookieOptions);
+    res.cookie("refresh_token", refresh_token, refreshTokenCookieOptions);
+    res.cookie("logged_in", true, {
       ...accessTokenCookieOptions,
       httpOnly: false,
     });
@@ -96,7 +96,7 @@ export const loginUserHandler = async (
     console.log(3);
     // 4. Send response
     res.status(200).json({
-      status: 'success',
+      status: "success",
       access_token,
       user,
     });
@@ -114,7 +114,7 @@ export const refreshAccessTokenHandler = async (
   try {
     const refresh_token = req.cookies.refresh_token;
 
-    const message = 'Could not refresh access token';
+    const message = "Could not refresh access token";
 
     if (!refresh_token) {
       return next(new AppError(403, message));
@@ -123,7 +123,7 @@ export const refreshAccessTokenHandler = async (
     // Validate refresh token
     const decoded = verifyJwt<{ sub: string }>(
       refresh_token,
-      'refreshTokenPublicKey'
+      "refreshTokenPublicKey"
     );
 
     if (!decoded) {
@@ -145,20 +145,20 @@ export const refreshAccessTokenHandler = async (
     }
 
     // Sign new access token
-    const access_token = signJwt({ sub: user.id }, 'accessTokenPrivateKey', {
-      expiresIn: `${config.get<number>('accessTokenExpiresIn')}m`,
+    const access_token = signJwt({ sub: user.id }, "accessTokenPrivateKey", {
+      expiresIn: `${config.get<number>("accessTokenExpiresIn")}m`,
     });
 
     // 4. Add Cookies
-    res.cookie('access_token', access_token, accessTokenCookieOptions);
-    res.cookie('logged_in', true, {
+    res.cookie("access_token", access_token, accessTokenCookieOptions);
+    res.cookie("logged_in", true, {
       ...accessTokenCookieOptions,
       httpOnly: false,
     });
 
     // 5. Send response
     res.status(200).json({
-      status: 'success',
+      status: "success",
       access_token,
     });
   } catch (err: any) {
@@ -166,10 +166,11 @@ export const refreshAccessTokenHandler = async (
   }
 };
 
+// limpar cookies ao fazer logout
 const logout = (res: Response) => {
-  res.cookie('access_token', '', { maxAge: -1 });
-  res.cookie('refresh_token', '', { maxAge: -1 });
-  res.cookie('logged_in', '', { maxAge: -1 });
+  res.cookie("access_token", "", { maxAge: -1 });
+  res.cookie("refresh_token", "", { maxAge: -1 });
+  res.cookie("logged_in", "", { maxAge: -1 });
 };
 
 export const logoutHandler = async (
@@ -184,7 +185,7 @@ export const logoutHandler = async (
     logout(res);
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
     });
   } catch (err: any) {
     next(err);

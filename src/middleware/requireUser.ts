@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import AppError from '../utils/appError';
+import { NextFunction, Request, Response } from "express";
+import AppError from "../utils/appError";
 
 export const requireUser = (
   req: Request,
@@ -7,6 +7,7 @@ export const requireUser = (
   next: NextFunction
 ) => {
   try {
+    // res.locals persiste apenas durante o ciclo de vida de um response
     const user = res.locals.user;
 
     if (!user) {

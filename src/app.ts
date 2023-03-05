@@ -1,24 +1,26 @@
-require('dotenv').config();
-import express, { NextFunction, Request, Response } from 'express';
-import config from 'config';
-import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import { AppDataSource } from './utils/data-source';
-import AppError from './utils/appError';
-import validateEnv from './utils/validateEnv';
-import redisClient from './utils/connectRedis';
+require("dotenv").config();
+import express, { NextFunction, Request, Response } from "express";
+import config from "config";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import { AppDataSource } from "./utils/data-source";
+import AppError from "./utils/appError";
+import validateEnv from "./utils/validateEnv";
+import redisClient from "./utils/connectRedis";
 
-import authRouter from './routes/auth.routes';
-import userRouter from './routes/user.routes';
-import obraRouter from './routes/obra.routes';
-import setorRouter from './routes/setor.routes';
-import ruaRouter from './routes/rua.routes';
-import trechoRouter from './routes/trechos.routes';
-import etapaRouter from './routes/etapa.routes';
-import atividadeRouter from './routes/atividade.routes';
-import grupoMateriaisRouter from './routes/grupo-materiais.routes';
-import materiaisRouter from './routes/materiais.routes';
+import authRouter from "./routes/auth.routes";
+import userRouter from "./routes/user.routes";
+import obraRouter from "./routes/obra.routes";
+import setorRouter from "./routes/setor.routes";
+import ruaRouter from "./routes/rua.routes";
+import trechoRouter from "./routes/trechos.routes";
+import etapaRouter from "./routes/etapa.routes";
+import atividadeRouter from "./routes/atividade.routes";
+import grupoMateriaisRouter from "./routes/grupo-materiais.routes";
+import materiaisRouter from "./routes/materiais.routes";
+import criacaoPlanejamentoRouter from "./routes/criacao-planejamento.routes";
+import planejamentoRouter from "./routes/planejamento.routes";
 
 AppDataSource.initialize()
   .then(async () => {
@@ -27,61 +29,56 @@ AppDataSource.initialize()
 
     const app = express();
 
-    // TEMPLATE ENGINE
-
-    // MIDDLEWARE
-
     // 1. Body parser
-    app.use(express.json({ limit: '10kb' }));
+    app.use(express.json({ limit: "10kb" }));
 
     // 2. Logger
-    if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+    if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 
-    // 3. Cookie Parser
+    // 3. Cookie Parser - middleware para anexar o cookie nos headers ao req.cookies
     app.use(cookieParser());
 
     // 4. Cors
     app.use(
       cors({
-        origin: config.get<string>('origin'),
+        origin: config.get<string>("origin"),
         credentials: true,
       })
     );
-    // app.use(
-    //   cors()
-    // );
 
     // ROUTES
-    app.use('/api/auth', authRouter);
-    app.use('/api/users', userRouter);
-    app.use('/api/obra', obraRouter);
-    app.use('/api/setor', setorRouter);
-    app.use('/api/rua', ruaRouter);
-    app.use('/api/trecho', trechoRouter);
-    app.use('/api/etapa', etapaRouter);
-    app.use('/api/atividade', atividadeRouter);
-    app.use('/api/grupo-materiais', grupoMateriaisRouter);
-    app.use('/api/materiais', materiaisRouter);
+    app.use("/api/auth", authRouter);
+    app.use("/api/users", userRouter);
+    app.use("/api/obra", obraRouter);
+    app.use("/api/setor", setorRouter);
+    app.use("/api/rua", ruaRouter);
+    app.use("/api/trecho", trechoRouter);
+    app.use("/api/etapa", etapaRouter);
+    app.use("/api/atividade", atividadeRouter);
+    app.use("/api/grupo-materiais", grupoMateriaisRouter);
+    app.use("/api/materiais", materiaisRouter);
+    app.use("/api/criacao-planejamento", criacaoPlanejamentoRouter);
+    app.use("/api/planejamento", planejamentoRouter);
 
     // HEALTH CHECKER
-    app.get('/api/healthChecker', async (_, res: Response) => {
-      const message = await redisClient.get('try');
+    app.get("/api/healthChecker", async (_, res: Response) => {
+      const message = await redisClient.get("try");
 
       res.status(200).json({
-        status: 'success',
+        status: "success",
         message,
       });
     });
 
     // UNHANDLED ROUTE
-    app.all('*', (req: Request, res: Response, next: NextFunction) => {
+    app.all("*", (req: Request, res: Response, next: NextFunction) => {
       next(new AppError(404, `Route ${req.originalUrl} not found`));
     });
 
     // GLOBAL ERROR HANDLER
     app.use(
       (error: AppError, req: Request, res: Response, next: NextFunction) => {
-        error.status = error.status || 'error';
+        error.status = error.status || "error";
         error.statusCode = error.statusCode || 500;
 
         res.status(error.statusCode).json({
@@ -91,7 +88,7 @@ AppDataSource.initialize()
       }
     );
 
-    const port = config.get<number>('port');
+    const port = config.get<number>("port");
     app.listen(port);
 
     console.log(`Server started on port: ${port}`);

@@ -1,25 +1,25 @@
-import express from 'express';
+import express from "express";
 import {
   getAtividadeHandler,
   getAllAtividadesHandler,
   registerAtividadeHandler,
-} from '../controllers/atividade.controller';
-import { validate } from '../middleware/validate';
-import { createAtividadeSchema } from '../schemas/atividade.schema';
+} from "../controllers/atividade.controller";
+import { validate } from "../middleware/validate";
+import { createAtividadeSchema } from "../schemas/atividade.schema";
 
 const router = express.Router();
 
-// Register user
+// Register atividade
 router.post(
-  '/register',
+  "/register",
   validate(createAtividadeSchema),
   registerAtividadeHandler
 );
 
-// Get obra por id
-router.get('/show/:id', getAtividadeHandler);
+// Get atividade por id
+router.get("/show/:id", getAtividadeHandler);
 
-// Get obras
-router.get('/show-all', getAllAtividadesHandler);
+// Get atividades
+router.get("/show-all", getAllAtividadesHandler);
 
 export default router;

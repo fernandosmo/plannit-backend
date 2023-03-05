@@ -40,7 +40,7 @@
     "start": "ts-node-dev --respawn --transpile-only --exit-child src/app.ts",
     "build": "tsc -p .",
     "typeorm": "typeorm-ts-node-commonjs -d ./src/utils/data-source.ts",
-    "typeorm:create-migration": "rm -rf build && npm run build && typeorm-ts-node-commonjs migration:create ./src/database/migrations/update-grupo-materiais-entity",
+    "typeorm:create-migration": "rm -rf build && npm run build && typeorm-ts-node-commonjs migration:create ./src/database/migrations/update-planejamento-entity",
     "migrate": "rm -rf build && npm run build && npm run typeorm migration:generate ./src/database/migrations/added-teste-entity",
     "db:push": "rm -rf build && npm run build && npm run typeorm migration:run",
     "migrate:down": "rm -rf build && npm run build && npm run typeorm migration:revert"

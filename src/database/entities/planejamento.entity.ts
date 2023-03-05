@@ -29,5 +29,5 @@ export class Planejamento {
   executado: number;
 
   @Column()
-  previsao_fim: Date;
+  previsao_fim: string;
 }

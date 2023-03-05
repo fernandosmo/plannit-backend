@@ -1,15 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Atividade } from './atividade.entity';
-import { Etapa } from './etapa.entity';
-import { Grupo_materiais } from './grupo-materiais.entity';
-import { Material } from './materiais.entity';
-import { Obra } from './obra.entity';
-import { Rua } from './rua.entity';
-import { Setor } from './setor.entity';
-import { Trecho } from './trecho.entity';
-import { User } from './user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Atividade } from "./atividade.entity";
+import { Etapa } from "./etapa.entity";
+import { Grupo_materiais } from "./grupo-materiais.entity";
+import { Material } from "./materiais.entity";
+import { Obra } from "./obra.entity";
+import { Rua } from "./rua.entity";
+import { Setor } from "./setor.entity";
+import { Trecho } from "./trecho.entity";
+import { User } from "./user.entity";
 
-@Entity('criar_planejamentos')
+@Entity("criar_planejamentos")
 export class Criar_planejamento {
   @PrimaryGeneratedColumn()
   public id: number;
@@ -55,10 +55,10 @@ export class Criar_planejamento {
   qtde: number;
 
   @Column()
-  Data_criacao: Date;
+  Data_criacao: string;
 
   @Column()
-  Data_prevista: Date;
+  Data_prevista: string;
 
   @Column({
     nullable: true,

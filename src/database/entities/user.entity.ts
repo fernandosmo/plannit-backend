@@ -1,19 +1,19 @@
-import { Entity, Column, Index, BeforeInsert } from 'typeorm';
-import bcrypt from 'bcryptjs';
+import { Entity, Column, Index, BeforeInsert } from "typeorm";
+import bcrypt from "bcryptjs";
 
-import Model from './model.entity';
+import Model from "./model.entity";
 
 export enum RoleEnumType {
-  USER = 'user',
-  ADMIN = 'admin',
+  USER = "user",
+  ADMIN = "admin",
 }
 
-@Entity('users')
+@Entity("users")
 export class User extends Model {
   @Column()
   name: string;
 
-  @Index('email_index')
+  @Index("email_index")
   @Column({
     unique: true,
   })
@@ -23,14 +23,14 @@ export class User extends Model {
   password: string;
 
   @Column({
-    type: 'enum',
+    type: "enum",
     enum: RoleEnumType,
     default: RoleEnumType.USER,
   })
   role: RoleEnumType.USER;
 
   @Column({
-    default: 'default.png',
+    default: "default.png",
   })
   photo: string;
 
@@ -43,6 +43,7 @@ export class User extends Model {
     return { ...this, password: undefined, verified: undefined };
   }
 
+  // ? Hash password before saving to database
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);

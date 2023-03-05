@@ -1,25 +1,25 @@
-import express from 'express';
+import express from "express";
 import {
   getMaterialHandler,
   getAllMaterialHandler,
   registerMaterialHandler,
-} from '../controllers/materiais.controller';
-import { validate } from '../middleware/validate';
-import { createMaterialSchema } from '../schemas/materiais.schema';
+} from "../controllers/materiais.controller";
+import { validate } from "../middleware/validate";
+import { createMaterialSchema } from "../schemas/materiais.schema";
 
 const router = express.Router();
 
-// Register user
+// Register material
 router.post(
-  '/register',
+  "/register",
   validate(createMaterialSchema),
   registerMaterialHandler
 );
 
-// Get obra por id
-router.get('/show/:id', getMaterialHandler);
+// Get material por id
+router.get("/show/:id", getMaterialHandler);
 
-// Get obras
-router.get('/show-all', getAllMaterialHandler);
+// Get materiais
+router.get("/show-all", getAllMaterialHandler);
 
 export default router;
